@@ -63,16 +63,21 @@ main {
   border-bottom: 1px solid var(--border-color);
   cursor: grab;
 }
-
 .close {
   position: absolute;
   left: 0;
   top: 0;
   height: 100%;
   width: 16px;
+  color: var(--border-color);
+  text-align: center;
+  font-weight: bold;
   border-right: 1px solid var(--border-color);
   background-color: black;
   cursor: pointer;
+}
+.close::selection {
+  color: var(--border-color);
 }
 
 .resize {
