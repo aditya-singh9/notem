@@ -106,6 +106,7 @@ class Memo {
     this.div.appendChild(this.move);
 
     this.close = document.createElement("div");
+    this.close.innerText = "X"; //added the innerText as a sort of indication where user can click to delete the note
     this.close.classList.add("close");
     this.move.appendChild(this.close);
     this.close.addEventListener("click", this.deleteMemo.bind(this));
@@ -254,7 +255,6 @@ localStorageMemos.forEach((memo) => {
 // Function used to update local storage if any differences are identified
 function updateLocalStorage() {
   if (localStorage.getItem("memos") != JSON.stringify(memoList)) {
-    console.log("Local storage updated");
     localStorage.setItem("memos", JSON.stringify(memoList));
   }
 }
