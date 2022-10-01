@@ -4,17 +4,17 @@
   --memo-bg-color: #bbf70629;
 } */
 
-:root {
+/* :root {
   --main-bg-color: #000000;
   --border-color: #fcc42a;
   --memo-bg-color: #fcc42a29;
-}
+} */
 
-/* :root {
+:root {
     --main-bg-color: #000000;
-    --border-color: #bbf706;
-    --memo-bg-color: #bbf70629;
-  } */
+    --border-color: #fcc42a;
+    --memo-bg-color: #fcc42a29;
+  }
 
 @font-face {
   font-family: "pixel";
@@ -39,7 +39,7 @@ main {
 
 .board {
   position: absolute;
-  top: 10px;
+  top: 20px;
   bottom: 10px;
   left: 10px;
   right: 10px;
@@ -126,4 +126,34 @@ canvas {
   width: calc(100% - 20px);
   height: calc(100% - 20px);
   z-index: -1;
+}
+
+.theme-container{
+  display:flex;
+  /* border: 2px solid cadetblue; */
+  
+}
+
+.theme-circles{
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  margin: 5px;
+  border: none;
+}
+
+.c1{
+    background-color: #FFE27D;
+}
+
+.c2{
+  background-color: #64E3FF;
+}
+
+.c3{
+  background-color: #9042ff;
+}
+
+.c4{
+    background-color: #B4FF39;
 }

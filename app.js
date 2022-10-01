@@ -25,6 +25,8 @@ let offsetYEnd = 0;
 let offsetYCurrent = 0;
 let offetXCurrent = 0;
 
+let theme = "";
+
 board.addEventListener("mousedown", (e) => {
   mouseClicked = true;
 
@@ -134,7 +136,21 @@ class Memo {
     this.moving = true;
 
     this.move.style.cursor = "grabbing";
-    this.move.style.backgroundColor = "#fcc42a55";
+    if(theme=="btn4"){
+      this.move.style.backgroundColor = "#B4FF39";
+    }
+    else if(theme=="btn3"){
+      this.move.style.backgroundColor = "#9042ff";
+    }
+    else if(theme=="btn2"){
+      this.move.style.backgroundColor = "#64E3FF";
+    }
+    else if(theme=="btn1"){
+      this.move.style.backgroundColor = "#FFE27D";
+    }
+    else{
+      this.move.style.backgroundColor = "#fcc42a";
+    }
     // determine where the grab cursor is to position the memo relative the the offset and mouse position.
     this.movingXDist = e.clientX - this.position.left;
     this.movingYDist = e.clientY - this.position.top;
@@ -277,3 +293,34 @@ window.addEventListener("mouseup", () => {
     memoList[i].mouseUp();
   }
 });
+
+function changeTheme(btnId){
+  console.log(btnId)
+  var r = document.querySelector(':root');
+  var rs = getComputedStyle(r);
+  if (btnId=="btn1"){
+    // alert("The value of border is: " + rs.getPropertyValue('--border-color'));
+    r.style.setProperty('--border-color', '#FFE27D');
+    r.style.setProperty('--memo-bg-color', '#FFE27D29');
+  }
+
+  else if (btnId=="btn2"){
+    // alert("The value of border is: " + rs.getPropertyValue('--border-color'));
+    r.style.setProperty('--border-color', '#64E3FF');
+    r.style.setProperty('--memo-bg-color', '#64E3FF29');
+  }
+
+  else if (btnId=="btn3"){
+    // alert("The value of border is: " + rs.getPropertyValue('--border-color'));
+    r.style.setProperty('--border-color', '#9042ff');
+    r.style.setProperty('--memo-bg-color', '#9042ff29');
+  }
+
+  else if (btnId=="btn4"){
+    // alert("The value of border is: " + rs.getPropertyValue('--border-color'));
+    r.style.setProperty('--border-color', '#B4FF39');
+    r.style.setProperty('--memo-bg-color', '#B4FF3929');
+  }
+
+  theme = btnId;
+}
