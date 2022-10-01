@@ -11,10 +11,10 @@
 } */
 
 :root {
-    --main-bg-color: #000000;
-    --border-color: #fcc42a;
-    --memo-bg-color: #fcc42a29;
-  }
+  --main-bg-color: #000000;
+  --border-color: #fcc42a;
+  --memo-bg-color: #fcc42a29;
+}
 
 @font-face {
   font-family: "pixel";
@@ -39,7 +39,7 @@ main {
 
 .board {
   position: absolute;
-  top: 20px;
+  top: 4vh;
   bottom: 10px;
   left: 10px;
   right: 10px;
@@ -128,32 +128,49 @@ canvas {
   z-index: -1;
 }
 
-.theme-container{
-  display:flex;
+.theme-container {
+  display: flex;
   /* border: 2px solid cadetblue; */
-  
 }
 
-.theme-circles{
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background-color: #111111;
+  padding-left: 10px;
+  padding-right: 10px;
+  height: 4vh;
+}
+.github_icon {
+  max-height: 3vh;
+
+}
+.header{
+  color: white;
+  font-size:3em
+}
+.theme-circles {
   width: 10px;
   height: 10px;
   border-radius: 100%;
   margin: 5px;
   border: none;
+  cursor: pointer;
 }
 
-.c1{
-    background-color: #FFE27D;
+.c1 {
+  background-color: #ffe27d;
 }
 
-.c2{
-  background-color: #64E3FF;
+.c2 {
+  background-color: #64e3ff;
 }
 
-.c3{
+.c3 {
   background-color: #9042ff;
 }
 
-.c4{
-    background-color: #B4FF39;
+.c4 {
+  background-color: #b4ff39;
 }
