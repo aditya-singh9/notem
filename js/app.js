@@ -114,6 +114,8 @@ class Memo {
     this.close.classList.add("close");
     this.move.appendChild(this.close);
     this.close.addEventListener("click", this.deleteMemo.bind(this));
+    this.close.addEventListener("keypress", this.deleteMemoKeyboard.bind(this));
+    this.close.tabIndex = 0;
 
     this.text = document.createElement("textarea");
     this.text.classList.add("text");
@@ -229,6 +231,17 @@ class Memo {
 
     updateLocalStorage();
     this.div.remove();
+  }
+
+  deleteMemoKeyboard(e) {
+    memoList = memoList.filter((memo) => {
+      return memo.id != this.id;
+    });
+
+    if (e.key === "Enter") {
+      updateLocalStorage();
+      this.div.remove();
+    }
   }
 
   moveMemo(e) {
