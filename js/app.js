@@ -1,3 +1,4 @@
+const r = document.querySelector(":root");
 const board = document.querySelector(".board");
 const selectionDiv = document.querySelector(".selection");
 
@@ -82,13 +83,14 @@ board.addEventListener("mousemove", (e) => {
 });
 
 class Memo {
-  constructor(id, position, size, content) {
+  constructor(id, position, size, content, rootStyle) {
     this.id = id; // Unique number
     this.position = position;
     this.size = size;
     this.content = content;
     this.moving = false;
     this.resizing = false;
+    this.rootStyle = rootStyle || null;
     this.createMemo();
   }
 
@@ -126,6 +128,11 @@ class Memo {
     this.div.appendChild(this.resize);
 
     board.appendChild(this.div);
+
+    if (this.rootStyle !== null) {
+      r.style.setProperty("--border-color", this.rootStyle['--border-color']);
+      r.style.setProperty("--memo-bg-color", this.rootStyle['--memo-bg-color']);
+    }
   }
 
   mouseDownMove(e) {
@@ -250,6 +257,11 @@ class Memo {
   updateText() {
     this.content = this.text.value;
   }
+
+  updateRootStyles(styles) {
+    this.rootStyle = styles;
+    updateLocalStorage();
+  }
 }
 
 // Initialize stored memos on page load
@@ -259,7 +271,8 @@ localStorageMemos.forEach((memo) => {
     memo.id,
     { left: memo.position.left, top: memo.position.top },
     { width: memo.size.width, height: memo.size.height },
-    memo.content
+    memo.content,
+    memo.rootStyle
   );
   memoList.push(storedMemo);
 });
@@ -291,8 +304,6 @@ window.addEventListener("mouseup", () => {
 });
 
 function changeTheme(btnId) {
-  console.log(btnId);
-  var r = document.querySelector(":root");
   var rs = getComputedStyle(r);
   if (btnId == "btn1") {
     // alert("The value of border is: " + rs.getPropertyValue('--border-color'));
@@ -310,6 +321,13 @@ function changeTheme(btnId) {
     // alert("The value of border is: " + rs.getPropertyValue('--border-color'));
     r.style.setProperty("--border-color", "#B4FF39");
     r.style.setProperty("--memo-bg-color", "#B4FF3929");
+  }
+
+  for (let i = 0; i < memoList.length; i++) {
+    memoList[i].updateRootStyles({
+      '--border-color': r.style.getPropertyValue('--border-color'),
+      '--memo-bg-color': r.style.getPropertyValue('--memo-bg-color'),
+    })
   }
 
   theme = btnId;
