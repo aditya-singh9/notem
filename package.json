@@ -2,7 +2,7 @@
   "name": "notem",
   "version": "1.0.0",
   "description": "A small and static notes taking website.",
-  "main": "app.js",
+  "main": "/js/app.js",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
@@ -22,4 +22,3 @@
   },
   "homepage": "https://github.com/aditya-singh9/notem#readme"
 }
-
