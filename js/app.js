@@ -71,9 +71,6 @@ board.addEventListener("mouseup", (e) => {
   selectionDiv.style.height = "0px";
   selectionDiv.style.display = "none";
   board.style.cursor = "default";
-  if (movingMemo || resizingMemo) {
-    console.log(selectionDiv)
-  }
 });
 
 board.addEventListener("mousemove", (e) => {
