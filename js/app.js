@@ -64,6 +64,7 @@ board.addEventListener("mouseup", (e) => {
     );
     memoList.push(memo);
     updateLocalStorage();
+    memo.focusMemo();
   }
 
   // Hide the selection area div and change cursor back
@@ -222,6 +223,7 @@ class Memo {
     ) {
       // Update memo position and size data in local storage.
       updateLocalStorage();
+      this.focusMemo();
     }
   }
 
@@ -276,6 +278,11 @@ class Memo {
     this.rootStyle = styles;
     updateLocalStorage();
   }
+
+  focusMemo() {
+    this.text.focus();
+  }
+
 }
 
 // Initialize stored memos on page load
