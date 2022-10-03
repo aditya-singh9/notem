@@ -1,5 +1,7 @@
+const r = document.querySelector(":root");
 const board = document.querySelector(".board");
 const selectionDiv = document.querySelector(".selection");
+const btnList = document.querySelectorAll(".btn");
 
 // Array to store all memos used in local storage.
 let localStorageMemos = JSON.parse(localStorage.getItem("memos")) || [];
@@ -23,7 +25,9 @@ let offsetYEnd = 0;
 
 // current offsets used for the selection div
 let offsetYCurrent = 0;
-let offetXCurrent = 0;
+let offsetXCurrent = 0;
+
+let theme = "";
 
 board.addEventListener("mousedown", (e) => {
   mouseClicked = true;
@@ -60,6 +64,7 @@ board.addEventListener("mouseup", (e) => {
     );
     memoList.push(memo);
     updateLocalStorage();
+    memo.focusMemo();
   }
 
   // Hide the selection area div and change cursor back
@@ -80,13 +85,14 @@ board.addEventListener("mousemove", (e) => {
 });
 
 class Memo {
-  constructor(id, position, size, content) {
+  constructor(id, position, size, content, rootStyle) {
     this.id = id; // Unique number
     this.position = position;
     this.size = size;
     this.content = content;
     this.moving = false;
     this.resizing = false;
+    this.rootStyle = rootStyle || null;
     this.createMemo();
   }
 
@@ -106,9 +112,12 @@ class Memo {
     this.div.appendChild(this.move);
 
     this.close = document.createElement("div");
+    this.close.innerText = "X"; //added the innerText as a sort of indication where user can click to delete the note
     this.close.classList.add("close");
     this.move.appendChild(this.close);
     this.close.addEventListener("click", this.deleteMemo.bind(this));
+    this.close.addEventListener("keypress", this.deleteMemoKeyboard.bind(this));
+    this.close.tabIndex = 0;
 
     this.text = document.createElement("textarea");
     this.text.classList.add("text");
@@ -123,6 +132,11 @@ class Memo {
     this.div.appendChild(this.resize);
 
     board.appendChild(this.div);
+
+    if (this.rootStyle !== null) {
+      r.style.setProperty("--border-color", this.rootStyle['--border-color']);
+      r.style.setProperty("--memo-bg-color", this.rootStyle['--memo-bg-color']);
+    }
   }
 
   mouseDownMove(e) {
@@ -133,7 +147,17 @@ class Memo {
     this.moving = true;
 
     this.move.style.cursor = "grabbing";
-    this.move.style.backgroundColor = "#fcc42a55";
+    if (theme == "btn4") {
+      this.move.style.backgroundColor = "#B4FF39";
+    } else if (theme == "btn3") {
+      this.move.style.backgroundColor = "#9042ff";
+    } else if (theme == "btn2") {
+      this.move.style.backgroundColor = "#64E3FF";
+    } else if (theme == "btn1") {
+      this.move.style.backgroundColor = "#FFE27D";
+    } else {
+      this.move.style.backgroundColor = "#fcc42a";
+    }
     // determine where the grab cursor is to position the memo relative the the offset and mouse position.
     this.movingXDist = e.clientX - this.position.left;
     this.movingYDist = e.clientY - this.position.top;
@@ -199,6 +223,7 @@ class Memo {
     ) {
       // Update memo position and size data in local storage.
       updateLocalStorage();
+      this.focusMemo();
     }
   }
 
@@ -209,6 +234,17 @@ class Memo {
 
     updateLocalStorage();
     this.div.remove();
+  }
+
+  deleteMemoKeyboard(e) {
+    memoList = memoList.filter((memo) => {
+      return memo.id != this.id;
+    });
+
+    if (e.key === "Enter") {
+      updateLocalStorage();
+      this.div.remove();
+    }
   }
 
   moveMemo(e) {
@@ -237,6 +273,16 @@ class Memo {
   updateText() {
     this.content = this.text.value;
   }
+
+  updateRootStyles(styles) {
+    this.rootStyle = styles;
+    updateLocalStorage();
+  }
+
+  focusMemo() {
+    this.text.focus();
+  }
+
 }
 
 // Initialize stored memos on page load
@@ -246,7 +292,8 @@ localStorageMemos.forEach((memo) => {
     memo.id,
     { left: memo.position.left, top: memo.position.top },
     { width: memo.size.width, height: memo.size.height },
-    memo.content
+    memo.content,
+    memo.rootStyle
   );
   memoList.push(storedMemo);
 });
@@ -254,7 +301,6 @@ localStorageMemos.forEach((memo) => {
 // Function used to update local storage if any differences are identified
 function updateLocalStorage() {
   if (localStorage.getItem("memos") != JSON.stringify(memoList)) {
-    console.log("Local storage updated");
     localStorage.setItem("memos", JSON.stringify(memoList));
   }
 }
@@ -277,3 +323,37 @@ window.addEventListener("mouseup", () => {
     memoList[i].mouseUp();
   }
 });
+
+for (const btn of btnList) {
+  btn.addEventListener('click', () => changeTheme(btn.id));
+}
+
+function changeTheme(btnId) {
+  var rs = getComputedStyle(r);
+  if (btnId == "btn1") {
+    // alert("The value of border is: " + rs.getPropertyValue('--border-color'));
+    r.style.setProperty("--border-color", "#FFE27D");
+    r.style.setProperty("--memo-bg-color", "#FFE27D29");
+  } else if (btnId == "btn2") {
+    // alert("The value of border is: " + rs.getPropertyValue('--border-color'));
+    r.style.setProperty("--border-color", "#64E3FF");
+    r.style.setProperty("--memo-bg-color", "#64E3FF29");
+  } else if (btnId == "btn3") {
+    // alert("The value of border is: " + rs.getPropertyValue('--border-color'));
+    r.style.setProperty("--border-color", "#9042ff");
+    r.style.setProperty("--memo-bg-color", "#9042ff29");
+  } else if (btnId == "btn4") {
+    // alert("The value of border is: " + rs.getPropertyValue('--border-color'));
+    r.style.setProperty("--border-color", "#B4FF39");
+    r.style.setProperty("--memo-bg-color", "#B4FF3929");
+  }
+
+  for (let i = 0; i < memoList.length; i++) {
+    memoList[i].updateRootStyles({
+      '--border-color': r.style.getPropertyValue('--border-color'),
+      '--memo-bg-color': r.style.getPropertyValue('--memo-bg-color'),
+    })
+  }
+
+  theme = btnId;
+}

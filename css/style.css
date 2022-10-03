@@ -1,25 +1,13 @@
-/* :root {
-  --main-bg-color: #131313;
-  --border-color: #bbf706;
-  --memo-bg-color: #bbf70629;
-} */
-
 :root {
-  --main-bg-color: #000000;
-  --border-color: #fcc42a;
-  --memo-bg-color: #fcc42a29;
-  --navbar-hover: #eaa448;
-}
-
-/* :root {
     --main-bg-color: #000000;
-    --border-color: #bbf706;
-    --memo-bg-color: #bbf70629;
-  } */
+    --border-color: #fcc42a;
+    --memo-bg-color: #fcc42a29;
+    --navbar-hover: #ed8932;
+}
 
 @font-face {
   font-family: "pixel";
-  src: url(./Advanced_Pixel-7.woff2) format("woff2");
+  src: url(../assets/Advanced_Pixel-7.woff2) format("woff2");
 }
 
 * {
@@ -40,7 +28,7 @@ main {
 
 .board {
   position: absolute;
-  top: 10px;
+  top: 20px;
   bottom: 10px;
   left: 10px;
   right: 10px;
@@ -64,16 +52,21 @@ main {
   border-bottom: 1px solid var(--border-color);
   cursor: grab;
 }
-
 .close {
   position: absolute;
   left: 0;
   top: 0;
   height: 100%;
   width: 16px;
+  color: var(--border-color);
+  text-align: center;
+  font-weight: bold;
   border-right: 1px solid var(--border-color);
   background-color: black;
   cursor: pointer;
+}
+.close::selection {
+  color: var(--border-color);
 }
 
 .resize {
@@ -125,19 +118,19 @@ main {
 }
 
 .head {
+  z-index: 1;
+
+  color: white;
+
   display: flex;
   align-items: center;
 
-  z-index: 1;
-
   position: fixed;
-  left: 0;
-  right: 0;
 
   width: 100%;
   height: 40px;
 
-  background-color: var(--border-color);
+  background-color: var(--memo-bg-color);
 }
 
 .head > p {
@@ -146,16 +139,54 @@ main {
 }
 
 .head > ul {
+  display: flex;
+  align-items: center;
+
   list-style: none;
+  height: 100%;
 }
 
 .head > ul > li {
   cursor: pointer;
-  margin: 10px;
   float: left;
   padding: 3px;
+  margin: 10px;
 }
 
-.head > ul >li:hover {
-  background-color: var(--navbar-hover);
+.head > ul > li > a {
+  color: white;
+}
+
+.theme-container{
+  margin: 0px;
+  background-color: black;
+  border-radius: 10px;
+  padding: 5px;
+  display:flex;
+  
+}
+
+.theme-circles{
+  width: 10px;
+  height: 10px;
+  border-radius: 100%;
+  margin: 5px;
+  border: none;
+  cursor: pointer;
+}
+
+.c1{
+    background-color: #FFE27D;
+}
+
+.c2{
+  background-color: #64E3FF;
+}
+
+.c3{
+  background-color: #9042ff;
+}
+
+.c4{
+    background-color: #B4FF39;
 }
