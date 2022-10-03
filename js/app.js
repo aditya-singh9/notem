@@ -1,6 +1,7 @@
 const r = document.querySelector(":root");
 const board = document.querySelector(".board");
 const selectionDiv = document.querySelector(".selection");
+const btnList = document.querySelectorAll(".btn");
 
 // Array to store all memos used in local storage.
 let localStorageMemos = JSON.parse(localStorage.getItem("memos")) || [];
@@ -315,6 +316,10 @@ window.addEventListener("mouseup", () => {
     memoList[i].mouseUp();
   }
 });
+
+for (const btn of btnList) {
+  btn.addEventListener('click', () => changeTheme(btn.id));
+}
 
 function changeTheme(btnId) {
   var rs = getComputedStyle(r);
