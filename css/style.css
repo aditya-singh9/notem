@@ -124,7 +124,6 @@ main {
 
   display: flex;
   align-items: center;
-
   position: fixed;
 
   width: 100%;
@@ -133,28 +132,37 @@ main {
   background-color: var(--memo-bg-color);
 }
 
-.head > p {
-  font-size: 20pt;
-  margin: 10px;
-}
-
 .head > ul {
   display: flex;
   align-items: center;
-
+  justify-content: space-between;
   list-style: none;
   height: 100%;
+  width: 100%;
 }
 
 .head > ul > li {
-  cursor: pointer;
-  float: left;
+  display: flex;
+  align-items: center;
   padding: 3px;
   margin: 10px;
 }
 
-.head > ul > li > a {
-  color: white;
+.head > ul > li > a > img {
+  cursor: pointer;
+  width: 15px;
+  height: 15px;
+  margin: 15px;
+  opacity: 0.7;
+  transition: 0.2s all;
+}
+
+.head > ul > li > a > img:hover {
+  opacity: 1;
+}
+
+.social-cards {
+  border-radius: 10px;
 }
 
 .theme-container{
@@ -163,7 +171,6 @@ main {
   border-radius: 10px;
   padding: 5px;
   display:flex;
-  
 }
 
 .theme-circles{
