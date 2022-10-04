@@ -1,20 +1,9 @@
-/* :root {
-  --main-bg-color: #131313;
-  --border-color: #bbf706;
-  --memo-bg-color: #bbf70629;
-} */
-
-/* :root {
-  --main-bg-color: #000000;
-  --border-color: #fcc42a;
-  --memo-bg-color: #fcc42a29;
-} */
-
 :root {
     --main-bg-color: #000000;
     --border-color: #fcc42a;
     --memo-bg-color: #fcc42a29;
-  }
+    --navbar-hover: #ed8932;
+}
 
 @font-face {
   font-family: "pixel";
@@ -119,7 +108,7 @@ main {
   outline: none;
 }
 
-canvas {
+#canvas {
   position: absolute;
   top: 10px;
   left: 10px;
@@ -128,10 +117,60 @@ canvas {
   z-index: -1;
 }
 
+.head {
+  z-index: 1;
+
+  color: white;
+
+  display: flex;
+  align-items: center;
+  position: fixed;
+
+  width: 100%;
+  height: 40px;
+
+  background-color: var(--memo-bg-color);
+}
+
+.head > ul {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  list-style: none;
+  height: 100%;
+  width: 100%;
+}
+
+.head > ul > li {
+  display: flex;
+  align-items: center;
+  padding: 3px;
+  margin: 10px;
+}
+
+.head > ul > li > a > img {
+  cursor: pointer;
+  width: 15px;
+  height: 15px;
+  margin: 15px;
+  opacity: 0.7;
+  transition: 0.2s all;
+}
+
+.head > ul > li > a > img:hover {
+  opacity: 1;
+}
+
+.social-cards {
+  border-radius: 10px;
+}
+
 .theme-container{
+  margin: 0px;
+  background-color: black;
+  border-radius: 10px;
+  padding: 5px;
   display:flex;
-  /* border: 2px solid cadetblue; */
-  
 }
 
 .theme-circles{
@@ -140,6 +179,7 @@ canvas {
   border-radius: 100%;
   margin: 5px;
   border: none;
+  cursor: pointer;
 }
 
 .c1{
