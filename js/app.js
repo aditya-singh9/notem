@@ -123,6 +123,13 @@ class Memo {
     this.close.addEventListener("keypress", this.deleteMemoKeyboard.bind(this));
     this.close.tabIndex = 0;
 
+    this.heading = document.createElement("h6");
+    this.heading.contentEditable = true;
+    this.heading.innerHTML = "Untitled";
+    this.heading.classList.add("memoTitle");
+    this.move.appendChild(this.heading);
+
+
     this.text = document.createElement("textarea");
     this.text.classList.add("text");
     this.text.value = this.content;
