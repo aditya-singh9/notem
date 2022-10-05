@@ -47,8 +47,14 @@ main {
   position: absolute;
   left:20px;
   font-size: 20px;
+  background-color: transparent;
   color: var(--border-color);
   width: calc(100% - 20px);
+  height: 30px;
+  resize: none;
+  border: none;
+  word-wrap: break-word;
+  cursor: grab;
 }
 
 .move {
