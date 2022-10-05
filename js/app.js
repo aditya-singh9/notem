@@ -88,7 +88,7 @@ board.addEventListener("mousemove", (e) => {
 });
 
 class Memo {
-  constructor(id, position, size, content, rootStyle) {
+  constructor(id = "", position = "", size = "", content = "", rootStyle = "", createMemo = true) {
     this.id = id; // Unique number
     this.position = position;
     this.size = size;
@@ -96,7 +96,11 @@ class Memo {
     this.moving = false;
     this.resizing = false;
     this.rootStyle = rootStyle || null;
-    this.createMemo();
+
+    // To avoid creating unwanted elements we use the variable "createMemo" which by default is "true". 
+    if(createMemo){
+      this.createMemo();
+    }
   }
 
   createMemo() {
@@ -122,6 +126,13 @@ class Memo {
     this.close.addEventListener("keypress", this.deleteMemoKeyboard.bind(this));
     this.close.tabIndex = 0;
 
+    this.heading = document.createElement("h6");
+    this.heading.contentEditable = true;
+    this.heading.innerHTML = "Untitled";
+    this.heading.classList.add("memoTitle");
+    this.move.appendChild(this.heading);
+
+
     this.text = document.createElement("textarea");
     this.text.classList.add("text");
     this.text.value = this.content;
@@ -137,8 +148,8 @@ class Memo {
     board.appendChild(this.div);
 
     if (this.rootStyle !== null) {
-      r.style.setProperty("--border-color", this.rootStyle['--border-color']);
-      r.style.setProperty("--memo-bg-color", this.rootStyle['--memo-bg-color']);
+      r.style.setProperty("--border-color", this.rootStyle["--border-color"]);
+      r.style.setProperty("--memo-bg-color", this.rootStyle["--memo-bg-color"]);
     }
   }
 
@@ -174,7 +185,7 @@ class Memo {
   mouseUp() {
     const currentPosition = {
       left: this.position.left,
-      top: this.position.top,
+      top: this.position.top
     };
     Object.freeze(currentPosition);
 
@@ -239,6 +250,19 @@ class Memo {
     this.div.remove();
   }
 
+  deleteAllMemos(memos = []) {
+    // As the length of this array will change, we create a copy of it to avoid problems when traversing it
+    let newMemoList = memoList;
+
+    // We go through the array and remove element by element
+    for (let element in newMemoList) {
+      let { id } = newMemoList[element];
+      this.id = id;
+      this.div = memos[element];
+      this.deleteMemo();
+    }
+  }
+
   deleteMemoKeyboard(e) {
     memoList = memoList.filter((memo) => {
       return memo.id != this.id;
@@ -285,7 +309,6 @@ class Memo {
   focusMemo() {
     this.text.focus();
   }
-
 }
 
 // Initialize stored memos on page load
@@ -328,7 +351,7 @@ window.addEventListener("mouseup", () => {
 });
 
 for (const btn of btnList) {
-  btn.addEventListener('click', () => changeTheme(btn.id));
+  btn.addEventListener("click", () => changeTheme(btn.id));
 }
 
 function changeTheme(btnId) {
@@ -355,12 +378,28 @@ function changeTheme(btnId) {
 
   for (let i = 0; i < memoList.length; i++) {
     memoList[i].updateRootStyles({
-      '--border-color': r.style.getPropertyValue('--border-color'),
-      '--memo-bg-color': r.style.getPropertyValue('--memo-bg-color'),
-    })
+      "--border-color": r.style.getPropertyValue("--border-color"),
+      "--memo-bg-color": r.style.getPropertyValue("--memo-bg-color")
+    });
   }
 
   theme = btnId;
 }
-
 changeTheme(lsTheme);
+
+// Close cards btn
+
+// Reference
+const closeCardBtn = document.querySelector("#close-cards-btn");
+
+// Listener
+closeCardBtn.addEventListener("click", () => {
+  // If memoList does not contain any element we exit the function
+  if(memoList.length <= 0){
+    return;
+  }
+
+  // Create the object "Memo" and execute the method to delete all memos.
+  let memo = new Memo("","","","","",false);
+  memo.deleteAllMemos(document.querySelectorAll('.memo'));
+});
