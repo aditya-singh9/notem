@@ -3,10 +3,13 @@ const board = document.querySelector(".board");
 const selectionDiv = document.querySelector(".selection");
 const btnList = document.querySelectorAll(".btn");
 
-// Array to store all memos used in local storage.
+// Array to store all memos used in local storage
 let localStorageMemos = JSON.parse(localStorage.getItem("memos")) || [];
 
 let memoList = [];
+
+// Get theme from local storage
+const lsTheme = localStorage.getItem("theme") || "";
 
 // Used to determine if a user is clicking and holding on the board to create a new memo.
 let mouseClicked = false;
@@ -353,6 +356,8 @@ for (const btn of btnList) {
 
 function changeTheme(btnId) {
   var rs = getComputedStyle(r);
+  localStorage.setItem("theme", btnId);
+
   if (btnId == "btn1") {
     // alert("The value of border is: " + rs.getPropertyValue('--border-color'));
     r.style.setProperty("--border-color", "#FFE27D");
@@ -380,6 +385,7 @@ function changeTheme(btnId) {
 
   theme = btnId;
 }
+changeTheme(lsTheme);
 
 // Close cards btn
 
