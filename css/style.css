@@ -43,12 +43,20 @@ main {
   will-change: left top;
 }
 
+.memoTitle{
+  position: absolute;
+  left:20px;
+  font-size: 20px;
+  color: var(--border-color);
+  width: calc(100% - 20px);
+}
+
 .move {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
-  height: 16px;
+  height: 30px;
   border-bottom: 1px solid var(--border-color);
   cursor: grab;
 }
@@ -95,9 +103,9 @@ main {
 
 .text {
   position: absolute;
-  top: 16px;
+  top: 30px;
   width: 100%;
-  height: calc(100% - 16px);
+  height: calc(100% - 30px);
   z-index: 0;
   resize: none;
   background-color: transparent;
