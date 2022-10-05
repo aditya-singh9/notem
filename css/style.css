@@ -197,3 +197,20 @@ main {
 .c4{
     background-color: #B4FF39;
 }
+
+.close-cards{
+  position: absolute;
+  right: 0;
+}
+
+.close-cards-btn{
+  cursor: pointer;
+  font-size: 20px;
+  width: 20px;
+  color: var(--border-color);
+  border: 1px solid var(--border-color);
+  background: var(--memo-bg-color);
+  margin-top: 70px;
+  margin-right: 5px;
+}
+
