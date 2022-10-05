@@ -1,7 +1,20 @@
 const r = document.querySelector(":root");
 const board = document.querySelector(".board");
 const selectionDiv = document.querySelector(".selection");
-const btnList = document.querySelectorAll(".btn");
+const btnList = document.querySelectorAll(".btnabc");
+const htu = document.querySelector(".btn");
+const useGuide = document.querySelector(".useGuide");
+
+htu.addEventListener("click", () => {
+  if(htu.innerText === "How To Use") {
+    htu.innerText = "Hide"
+    useGuide.style.display = "block";
+  }
+  else {
+    htu.innerText = "How To Use";
+    useGuide.style.display = "none";
+  }
+});
 
 // Array to store all memos used in local storage.
 let localStorageMemos = JSON.parse(localStorage.getItem("memos")) || [];
@@ -114,6 +127,9 @@ class Memo {
     this.close = document.createElement("div");
     this.close.innerText = "X"; //added the innerText as a sort of indication where user can click to delete the note
     this.close.classList.add("close");
+    // this.close.setAttribute("text-align", "center");
+    this.close.setAttribute("display", "flex");
+    this.close.setAttribute("align-items", "center");
     this.move.appendChild(this.close);
     this.close.addEventListener("click", this.deleteMemo.bind(this));
     this.close.addEventListener("keypress", this.deleteMemoKeyboard.bind(this));
