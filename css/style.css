@@ -118,7 +118,6 @@ main {
   resize: none;
   background-color: transparent;
   color: var(--border-color);
-  font-family: "pixel";
   font-size: 26px;
   padding: 5px;
   outline: none;
@@ -230,3 +229,55 @@ main {
   margin-right: 5px;
 }
 
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropbtn {
+  margin: 5px;
+  border-radius: 100%;
+  border: none;
+  width: 15px;
+  height: 15px;
+}
+
+.dropdown-content {
+  display: none;
+  width: 250px;
+  padding: 10px;
+  position: absolute;
+  z-index: 1;
+  opacity: 0;
+  transition: opacity 0.2s ease-out;
+}
+
+.dropdown-content > button {
+  font-family: var(--font);
+
+  border: none;
+  border-radius: 2px;
+  padding: 4px;
+  font-size: 15px;
+  margin-bottom: 2px;
+  cursor: pointer;
+  width: fit-content;
+  opacity: 0.7;
+  transition: all 0.1s ease-out;
+}
+
+.dropdown-content > button:hover {
+  opacity: 1;
+  padding-inline: 10px;
+}
+
+.dropdown-content > button:hover::before {
+  content: ">";
+  margin-right: 10px;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+  flex-direction: column;
+  opacity: 1;
+}
