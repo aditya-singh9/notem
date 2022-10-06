@@ -11,6 +11,9 @@ let memoList = [];
 // Get theme from local storage
 const lsTheme = localStorage.getItem("theme") || "";
 
+// Get font from local storage (pixel is default)
+const lsFont  = localStorage.getItem("font") || "'pixel'";
+
 // Used to determine if a user is clicking and holding on the board to create a new memo.
 let mouseClicked = false;
 
@@ -96,6 +99,7 @@ class Memo {
     this.moving = false;
     this.resizing = false;
     this.rootStyle = rootStyle || null;
+    this.font = localStorage.getItem("font");
 
     // To avoid creating unwanted elements we use the variable "createMemo" which by default is "true". 
     if(createMemo){
@@ -121,6 +125,7 @@ class Memo {
     this.close = document.createElement("div");
     this.close.innerText = "X"; //added the innerText as a sort of indication where user can click to delete the note
     this.close.classList.add("close");
+    this.close.style.fontFamily = this.font
     this.move.appendChild(this.close);
     this.close.addEventListener("click", this.deleteMemo.bind(this));
     this.close.addEventListener("keypress", this.deleteMemoKeyboard.bind(this));
@@ -130,10 +135,12 @@ class Memo {
     this.heading.contentEditable = true;
     this.heading.innerHTML = "Untitled";
     this.heading.classList.add("memoTitle");
+    this.heading.style.fontFamily = this.font
     this.move.appendChild(this.heading);
 
     this.text = document.createElement("textarea");
     this.text.classList.add("text");
+    this.text.style.fontFamily = this.font
     this.text.value = this.content;
     this.text.addEventListener("keyup", this.updateText.bind(this));
     this.text.addEventListener("blur", updateLocalStorage);
@@ -171,6 +178,8 @@ class Memo {
     } else {
       this.move.style.backgroundColor = "#fcc42a";
     }
+
+    
     // determine where the grab cursor is to position the memo relative the the offset and mouse position.
     this.movingXDist = e.clientX - this.position.left;
     this.movingYDist = e.clientY - this.position.top;
@@ -385,6 +394,40 @@ function changeTheme(btnId) {
   theme = btnId;
 }
 changeTheme(lsTheme);
+
+// Change font function
+function changeFont(font){
+  localStorage.setItem("font", font)
+  console.log(font)
+  memoList.forEach(memo => {
+    memo.text.style.fontFamily = font;
+    memo.heading.style.fontFamily = font;
+    memo.close.style.fontFamily = font;
+  });
+}
+changeFont(lsFont);
+
+
+document.querySelectorAll(".dropdown-content > button").forEach(e => {
+  if(e.style.cssText.includes(lsFont)){
+    e.style.backgroundColor = "var(--border-color)";
+  }
+
+  e.addEventListener("click", () => {
+    // original string looks like this
+    // --font: \"Lexend Exa\", sans-serif;  background-color: white;
+    // chop it down to just
+    // 'Lexend Exa', sans-serif
+    changeFont(e.style.cssText.slice(0, e.style.cssText.indexOf(";")).slice(8))
+
+    document.querySelectorAll(".dropdown-content > button").forEach(e => {
+      e.style.backgroundColor = "white";
+    })
+
+    e.style.backgroundColor = "var(--border-color)";
+  })
+})
+
 
 // Close cards btn
 
