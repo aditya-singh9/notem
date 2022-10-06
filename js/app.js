@@ -67,7 +67,6 @@ board.addEventListener("mouseup", (e) => {
       { left: offsetXStart, top: offsetYStart },
       { width, height },
       "", // Blank as no content on initialization
-      "", // Blank
     );
     memoList.push(memo);
     updateLocalStorage();
@@ -325,7 +324,7 @@ localStorageMemos.forEach((memo) => {
     { left: memo.position.left, top: memo.position.top },
     { width: memo.size.width, height: memo.size.height },
     memo.content,
-    memo.rootStyle,
+    memo.rootStyle
   );
   memoList.push(storedMemo);
 });
