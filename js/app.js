@@ -16,10 +16,16 @@ htu.addEventListener("click", () => {
   }
 });
 
-// Array to store all memos used in local storage.
+// Array to store all memos used in local storage
 let localStorageMemos = JSON.parse(localStorage.getItem("memos")) || [];
 
 let memoList = [];
+
+// Get theme from local storage
+const lsTheme = localStorage.getItem("theme") || "";
+
+// Get font from local storage (pixel is default)
+const lsFont  = localStorage.getItem("font") || "'pixel'";
 
 // Used to determine if a user is clicking and holding on the board to create a new memo.
 let mouseClicked = false;
@@ -98,7 +104,7 @@ board.addEventListener("mousemove", (e) => {
 });
 
 class Memo {
-  constructor(id, position, size, content, rootStyle) {
+  constructor(id = "", position = "", size = "", content = "", rootStyle = "", createMemo = true) {
     this.id = id; // Unique number
     this.position = position;
     this.size = size;
@@ -106,7 +112,12 @@ class Memo {
     this.moving = false;
     this.resizing = false;
     this.rootStyle = rootStyle || null;
-    this.createMemo();
+    this.font = localStorage.getItem("font");
+
+    // To avoid creating unwanted elements we use the variable "createMemo" which by default is "true". 
+    if(createMemo){
+      this.createMemo();
+    }
   }
 
   createMemo() {
@@ -130,13 +141,22 @@ class Memo {
     // this.close.setAttribute("text-align", "center");
     this.close.setAttribute("display", "flex");
     this.close.setAttribute("align-items", "center");
+    this.close.style.fontFamily = this.font
     this.move.appendChild(this.close);
     this.close.addEventListener("click", this.deleteMemo.bind(this));
     this.close.addEventListener("keypress", this.deleteMemoKeyboard.bind(this));
     this.close.tabIndex = 0;
 
+    this.heading = document.createElement("textarea");
+    this.heading.contentEditable = true;
+    this.heading.innerHTML = "Untitled";
+    this.heading.classList.add("memoTitle");
+    this.heading.style.fontFamily = this.font
+    this.move.appendChild(this.heading);
+
     this.text = document.createElement("textarea");
     this.text.classList.add("text");
+    this.text.style.fontFamily = this.font
     this.text.value = this.content;
     this.text.addEventListener("keyup", this.updateText.bind(this));
     this.text.addEventListener("blur", updateLocalStorage);
@@ -150,8 +170,8 @@ class Memo {
     board.appendChild(this.div);
 
     if (this.rootStyle !== null) {
-      r.style.setProperty("--border-color", this.rootStyle['--border-color']);
-      r.style.setProperty("--memo-bg-color", this.rootStyle['--memo-bg-color']);
+      r.style.setProperty("--border-color", this.rootStyle["--border-color"]);
+      r.style.setProperty("--memo-bg-color", this.rootStyle["--memo-bg-color"]);
     }
   }
 
@@ -174,6 +194,8 @@ class Memo {
     } else {
       this.move.style.backgroundColor = "#fcc42a";
     }
+
+    
     // determine where the grab cursor is to position the memo relative the the offset and mouse position.
     this.movingXDist = e.clientX - this.position.left;
     this.movingYDist = e.clientY - this.position.top;
@@ -187,13 +209,13 @@ class Memo {
   mouseUp() {
     const currentPosition = {
       left: this.position.left,
-      top: this.position.top,
+      top: this.position.top
     };
     Object.freeze(currentPosition);
 
     const currentSize = { width: this.size.width, height: this.size.height };
     Object.freeze(currentSize);
-
+    
     movingMemo = false;
     resizingMemo = false;
 
@@ -252,6 +274,19 @@ class Memo {
     this.div.remove();
   }
 
+  deleteAllMemos(memos = []) {
+    // As the length of this array will change, we create a copy of it to avoid problems when traversing it
+    let newMemoList = memoList;
+
+    // We go through the array and remove element by element
+    for (let element in newMemoList) {
+      let { id } = newMemoList[element];
+      this.id = id;
+      this.div = memos[element];
+      this.deleteMemo();
+    }
+  }
+
   deleteMemoKeyboard(e) {
     memoList = memoList.filter((memo) => {
       return memo.id != this.id;
@@ -298,7 +333,6 @@ class Memo {
   focusMemo() {
     this.text.focus();
   }
-
 }
 
 // Initialize stored memos on page load
@@ -341,11 +375,13 @@ window.addEventListener("mouseup", () => {
 });
 
 for (const btn of btnList) {
-  btn.addEventListener('click', () => changeTheme(btn.id));
+  btn.addEventListener("click", () => changeTheme(btn.id));
 }
 
 function changeTheme(btnId) {
   var rs = getComputedStyle(r);
+  localStorage.setItem("theme", btnId);
+
   if (btnId == "btn1") {
     // alert("The value of border is: " + rs.getPropertyValue('--border-color'));
     r.style.setProperty("--border-color", "#FFE27D");
@@ -366,10 +402,62 @@ function changeTheme(btnId) {
 
   for (let i = 0; i < memoList.length; i++) {
     memoList[i].updateRootStyles({
-      '--border-color': r.style.getPropertyValue('--border-color'),
-      '--memo-bg-color': r.style.getPropertyValue('--memo-bg-color'),
-    })
+      "--border-color": r.style.getPropertyValue("--border-color"),
+      "--memo-bg-color": r.style.getPropertyValue("--memo-bg-color")
+    });
   }
 
   theme = btnId;
 }
+changeTheme(lsTheme);
+
+// Change font function
+function changeFont(font){
+  localStorage.setItem("font", font)
+  console.log(font)
+  memoList.forEach(memo => {
+    memo.text.style.fontFamily = font;
+    memo.heading.style.fontFamily = font;
+    memo.close.style.fontFamily = font;
+  });
+}
+changeFont(lsFont);
+
+
+document.querySelectorAll(".dropdown-content > button").forEach(e => {
+  if(e.style.cssText.includes(lsFont)){
+    e.style.backgroundColor = "var(--border-color)";
+  }
+
+  e.addEventListener("click", () => {
+    // original string looks like this
+    // --font: \"Lexend Exa\", sans-serif;  background-color: white;
+    // chop it down to just
+    // 'Lexend Exa', sans-serif
+    changeFont(e.style.cssText.slice(0, e.style.cssText.indexOf(";")).slice(8))
+
+    document.querySelectorAll(".dropdown-content > button").forEach(e => {
+      e.style.backgroundColor = "white";
+    })
+
+    e.style.backgroundColor = "var(--border-color)";
+  })
+})
+
+
+// Close cards btn
+
+// Reference
+const closeCardBtn = document.querySelector("#close-cards-btn");
+
+// Listener
+closeCardBtn.addEventListener("click", () => {
+  // If memoList does not contain any element we exit the function
+  if(memoList.length <= 0){
+    return;
+  }
+
+  // Create the object "Memo" and execute the method to delete all memos.
+  let memo = new Memo("","","","","",false);
+  memo.deleteAllMemos(document.querySelectorAll('.memo'));
+});

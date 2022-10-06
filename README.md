@@ -1,6 +1,6 @@
-<h1 align="center">MemoBoard</h1>
+<h1 align="center">Notem</h1>
 
-> MemoBoard, A small note taking website
+> Notem, A small note taking website
 
 ---
 
@@ -10,7 +10,7 @@
 
 - Github: [@aditya-singh9](https://github.com/aditya-singh9)
 - LinkedIn: [@Aditya Singh](https://www.linkedin.com/in/aditya-singh9/)
-- Portfolio: [adityasingh.xyz](https://adityasingh.xyz)
+- Portfolio: [adityasingh.xyz](https://adityasingh.tech)
 
 ## 🤝 Contributing
 
