@@ -178,13 +178,15 @@ main {
   border-radius: 10px;
   padding: 5px;
   display:flex;
+  align-items: center;
 }
 
 .theme-circles{
   width: 10px;
   height: 10px;
   border-radius: 100%;
-  margin: 5px;
+  margin-left: 5px;
+  margin-right: 5px;
   border: none;
   cursor: pointer;
 }
@@ -205,20 +207,28 @@ main {
     background-color: #B4FF39;
 }
 
-.close-cards{
-  position: absolute;
-  right: 0;
-}
-
 .close-cards-btn{
   cursor: pointer;
   font-size: 20px;
   width: 20px;
+  padding-inline: 5px;
   color: var(--border-color);
   border: 1px solid var(--border-color);
+  border-radius: 5px;
   background: var(--memo-bg-color);
-  margin-top: 70px;
-  margin-right: 5px;
+  margin: 10px;
+  opacity: 0.7;
+
+  transition: all 0.2s ease-out;
+}
+
+.close-cards-btn:hover {
+  width: fit-content;
+  opacity: 1;
+}
+
+.close-cards-btn:hover::after {
+  content: " Close all cards";
 }
 
 .dropdown {
