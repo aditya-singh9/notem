@@ -11,6 +11,9 @@ let memoList = [];
 // Get theme from local storage
 const lsTheme = localStorage.getItem("theme") || "";
 
+// Get font from local storage (pixel is default)
+const lsFont  = localStorage.getItem("font") || "'pixel'";
+
 // Used to determine if a user is clicking and holding on the board to create a new memo.
 let mouseClicked = false;
 
@@ -63,7 +66,8 @@ board.addEventListener("mouseup", (e) => {
       Date.now(),
       { left: offsetXStart, top: offsetYStart },
       { width, height },
-      "" // Blank as no content on initialization
+      "", // Blank as no content on initialization
+      "", // Blank
     );
     memoList.push(memo);
     updateLocalStorage();
@@ -172,6 +176,8 @@ class Memo {
     } else {
       this.move.style.backgroundColor = "#fcc42a";
     }
+
+    
     // determine where the grab cursor is to position the memo relative the the offset and mouse position.
     this.movingXDist = e.clientX - this.position.left;
     this.movingYDist = e.clientY - this.position.top;
@@ -319,7 +325,7 @@ localStorageMemos.forEach((memo) => {
     { left: memo.position.left, top: memo.position.top },
     { width: memo.size.width, height: memo.size.height },
     memo.content,
-    memo.rootStyle
+    memo.rootStyle,
   );
   memoList.push(storedMemo);
 });
@@ -386,6 +392,40 @@ function changeTheme(btnId) {
   theme = btnId;
 }
 changeTheme(lsTheme);
+
+// Change font function
+function changeFont(font){
+  localStorage.setItem("font", font)
+  console.log(font)
+  memoList.forEach(memo => {
+    memo.text.style.fontFamily = font;
+    memo.heading.style.fontFamily = font;
+    memo.close.style.fontFamily = font;
+  });
+}
+changeFont(lsFont);
+
+
+document.querySelectorAll(".dropdown-content > button").forEach(e => {
+  if(e.style.cssText.includes(lsFont)){
+    e.style.backgroundColor = "var(--border-color)";
+  }
+
+  e.addEventListener("click", () => {
+    // original string looks like this
+    // --font: \"Lexend Exa\", sans-serif;  background-color: white;
+    // chop it down to just
+    // 'Lexend Exa', sans-serif
+    changeFont(e.style.cssText.slice(0, e.style.cssText.indexOf(";")).slice(8))
+
+    document.querySelectorAll(".dropdown-content > button").forEach(e => {
+      e.style.backgroundColor = "white";
+    })
+
+    e.style.backgroundColor = "var(--border-color)";
+  })
+})
+
 
 // Close cards btn
 
