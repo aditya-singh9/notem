@@ -66,7 +66,7 @@ board.addEventListener("mouseup", (e) => {
       Date.now(),
       { left: offsetXStart, top: offsetYStart },
       { width, height },
-      "", // Blank as no content on initialization
+      "" // Blank as no content on initialization
     );
     memoList.push(memo);
     updateLocalStorage();
