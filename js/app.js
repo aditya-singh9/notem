@@ -131,13 +131,12 @@ class Memo {
     this.close.addEventListener("keypress", this.deleteMemoKeyboard.bind(this));
     this.close.tabIndex = 0;
 
-    this.heading = document.createElement("h6");
+    this.heading = document.createElement("textarea");
     this.heading.contentEditable = true;
     this.heading.innerHTML = "Untitled";
     this.heading.classList.add("memoTitle");
     this.heading.style.fontFamily = this.font
     this.move.appendChild(this.heading);
-
 
     this.text = document.createElement("textarea");
     this.text.classList.add("text");
@@ -200,7 +199,7 @@ class Memo {
 
     const currentSize = { width: this.size.width, height: this.size.height };
     Object.freeze(currentSize);
-
+    
     movingMemo = false;
     resizingMemo = false;
 
