@@ -100,6 +100,7 @@ class Memo {
     this.moving = false;
     this.resizing = false;
     this.rootStyle = rootStyle || null;
+    this.font = localStorage.getItem("font");
 
     // To avoid creating unwanted elements we use the variable "createMemo" which by default is "true". 
     if(createMemo){
@@ -125,6 +126,7 @@ class Memo {
     this.close = document.createElement("div");
     this.close.innerText = "X"; //added the innerText as a sort of indication where user can click to delete the note
     this.close.classList.add("close");
+    this.close.style.fontFamily = this.font
     this.move.appendChild(this.close);
     this.close.addEventListener("click", this.deleteMemo.bind(this));
     this.close.addEventListener("keypress", this.deleteMemoKeyboard.bind(this));
@@ -134,11 +136,13 @@ class Memo {
     this.heading.contentEditable = true;
     this.heading.innerHTML = "Untitled";
     this.heading.classList.add("memoTitle");
+    this.heading.style.fontFamily = this.font
     this.move.appendChild(this.heading);
 
 
     this.text = document.createElement("textarea");
     this.text.classList.add("text");
+    this.text.style.fontFamily = this.font
     this.text.value = this.content;
     this.text.addEventListener("keyup", this.updateText.bind(this));
     this.text.addEventListener("blur", updateLocalStorage);
