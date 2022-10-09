@@ -46,7 +46,7 @@ main {
 .memoTitle{
   position: absolute;
   left:20px;
-  font-size: 30px;
+  font-size: 1em;
   background-color: transparent;
   color: var(--border-color);
   width: calc(100% - 20px);

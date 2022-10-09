@@ -403,7 +403,17 @@ function changeFont(font){
     memo.text.style.fontFamily = font;
     memo.heading.style.fontFamily = font;
     memo.close.style.fontFamily = font;
+
+    // Multiple conditional statements needed for proper sizing across browsers
+    if (memo.text.style.fontFamily == "\"pixel\"" || memo.text.style.fontFamily == "pixel") {
+      memo.heading.style.fontSize = "1.5em";
+    }
+    else {
+      memo.heading.style.fontSize = "1em";
+    }
   });
+
+
 }
 changeFont(lsFont);
 
