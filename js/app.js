@@ -148,6 +148,7 @@ class Memo {
     this.text.addEventListener("keyup", this.updateText.bind(this));
     this.text.addEventListener("blur", updateLocalStorage);
     this.div.appendChild(this.text);
+    
     this.resize = document.createElement("div");
     this.resize.classList.add("resize");
     this.resize.addEventListener("mousedown", this.mouseDownResize.bind(this));
@@ -414,11 +415,8 @@ function changeFont(font){
       memo.heading.style.fontSize = "1em";
     }
   });
-
-
 }
 changeFont(lsFont);
-
 
 document.querySelectorAll(".dropdown-content > button").forEach(e => {
   if(e.style.cssText.includes(lsFont)){
