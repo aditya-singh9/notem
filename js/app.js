@@ -136,6 +136,9 @@ class Memo {
     this.heading.innerHTML = "Untitled";
     this.heading.classList.add("memoTitle");
     this.heading.style.fontFamily = this.font
+    if (this.heading.style.fontFamily == "pixel" || this.heading.style.fontFamily == "\"pixel\"") {
+      this.heading.style.fontSize = "1.5em";
+    }
     this.move.appendChild(this.heading);
 
     this.text = document.createElement("textarea");
@@ -145,7 +148,7 @@ class Memo {
     this.text.addEventListener("keyup", this.updateText.bind(this));
     this.text.addEventListener("blur", updateLocalStorage);
     this.div.appendChild(this.text);
-
+    
     this.resize = document.createElement("div");
     this.resize.classList.add("resize");
     this.resize.addEventListener("mousedown", this.mouseDownResize.bind(this));
@@ -403,10 +406,17 @@ function changeFont(font){
     memo.text.style.fontFamily = font;
     memo.heading.style.fontFamily = font;
     memo.close.style.fontFamily = font;
+
+    // Multiple conditional statements needed for proper sizing across browsers
+    if (memo.text.style.fontFamily == "\"pixel\"" || memo.text.style.fontFamily == "pixel") {
+      memo.heading.style.fontSize = "1.5em";
+    }
+    else {
+      memo.heading.style.fontSize = "1em";
+    }
   });
 }
 changeFont(lsFont);
-
 
 document.querySelectorAll(".dropdown-content > button").forEach(e => {
   if(e.style.cssText.includes(lsFont)){
