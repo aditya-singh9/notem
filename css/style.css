@@ -170,6 +170,7 @@ main {
   margin: 15px;
   opacity: 0.7;
   transition: 0.2s all;
+  vertical-align:middle ;
 }
 
 .head > ul > li > a > img:hover {
